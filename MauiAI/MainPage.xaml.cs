@@ -81,13 +81,17 @@ public partial class MainPage : ContentPage
         {
             
 
-            var endpoint = new CustomVisionPredictionClient(new ApiKeyServiceClientCredentials(ApiKeys.PredictionKey))
+            var endpoint = new CustomVisionPredictionClient(
+                new ApiKeyServiceClientCredentials(ApiKeys.PredictionKey))
             {
                 Endpoint = ApiKeys.CustomVisionEndPoint
             };
 
             // Send image to the Custom Vision API
-            var results = await endpoint.ClassifyImageAsync(Guid.Parse(ApiKeys.ProjectId), ApiKeys.PublishedName, photoStream);
+            var results = await endpoint.ClassifyImageAsync(
+                Guid.Parse(ApiKeys.ProjectId), 
+                ApiKeys.PublishedName, 
+                photoStream);
 
             // Return the most likely prediction
             return results.Predictions?.OrderByDescending(x => x.Probability).FirstOrDefault();
